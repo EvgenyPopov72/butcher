@@ -17,7 +17,7 @@ class CutVideo:
         self.output_dir = output_dir
         self.dbi = dbi
 
-    async def start(self, file_name: str, chunk_duration: int = 1):
+    async def start(self, file_name: str, pitch: int, chunk_duration: int = 1):
         """
         Start processing.
 
@@ -32,6 +32,7 @@ class CutVideo:
         full_path_input_file = self.input_dir / file_name
 
         cmd = f"""ffmpeg -i {full_path_input_file} \
+             -af 'asetrate=44100*{pitch / 100},aresample=44100' \
              -c:v h264 \
              -flags +cgop \
              -g 30 \

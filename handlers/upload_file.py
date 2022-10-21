@@ -33,9 +33,10 @@ class UploadFileHandler(tornado.web.RequestHandler):
             self.set_secure_cookie("uploaded_file", uploaded_file["filename"])
 
             dbi: DBInterface = self.settings["dbi"]
-            await dbi.save_file(uploaded_file["filename"], pitch=int(self.get_argument("pitch-speed")))
+            pitch = int(self.get_argument("pitch-speed"))
+            await dbi.save_file(uploaded_file["filename"], pitch=pitch)
 
             task = CutVideo(self.settings["upload_path"], self.settings["chunks"], dbi)
-            IOLoop.current().spawn_callback(task.start, uploaded_file["filename"])
+            IOLoop.current().spawn_callback(task.start, uploaded_file["filename"], pitch)
 
         self.redirect("/")
