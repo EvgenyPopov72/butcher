@@ -10,4 +10,4 @@ WORKDIR /opt/butcher
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-ENTRYPOINT ["python", "main.py"]
+CMD ["python", "main.py"]
