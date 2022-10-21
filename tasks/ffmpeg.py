@@ -11,12 +11,19 @@ log = logging.getLogger("Gabumas.ffmpeg")
 
 
 class CutVideo:
+    """Class for processing video files using ffmpeg."""
     def __init__(self, input_dir: str | Path, output_dir: str | Path, dbi: DBInterface):
         self.input_dir = input_dir
         self.output_dir = output_dir
         self.dbi = dbi
 
     async def start(self, file_name: str, chunk_duration: int = 1):
+        """
+        Start processing.
+
+        NOTE: This implementation is for demonstration purposes only. For production, it is better to use Apache Airflow
+        or a similar solution.
+        """
         job_id = await self.dbi.create_job(file_name)
 
         job_output_dir = self.output_dir / str(job_id)

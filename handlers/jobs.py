@@ -1,9 +1,10 @@
+import tornado.web
+
 from db import DBInterface
-from handlers import BaseHandler
 from utils import JobStatus
 
 
-class JobsHandler(BaseHandler):
+class JobsHandler(tornado.web.RequestHandler):
     """Job Handler."""
 
     async def get(self):

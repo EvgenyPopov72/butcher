@@ -1,8 +1,9 @@
+import tornado.web
+
 from db import DBInterface
-from handlers import BaseHandler
 
 
-class ChunksHandler(BaseHandler):
+class ChunksHandler(tornado.web.RequestHandler):
     """Chunks Handler."""
 
     async def get(self):
