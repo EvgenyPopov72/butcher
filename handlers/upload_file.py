@@ -1,21 +1,19 @@
 from pathlib import Path
 
-import tornado.web
 from tornado.ioloop import IOLoop
 
-from db import DBInterface
+from handlers import BaseHandler
 from tasks import CutVideo
 
 
-class UploadFileHandler(tornado.web.RequestHandler):
+class UploadFileHandler(BaseHandler):
     """Files Handler."""
 
     async def get(self):
         uploaded_file = self.get_secure_cookie("uploaded_file")
         self.clear_cookie("uploaded_file")
 
-        dbi: DBInterface = self.settings["dbi"]
-        files = await dbi.list_files()
+        files = await self.dbi.list_files()
         await self.render("files.html", uploaded_file=uploaded_file, files=files)
 
     async def post(self):
@@ -32,11 +30,10 @@ class UploadFileHandler(tornado.web.RequestHandler):
 
             self.set_secure_cookie("uploaded_file", uploaded_file["filename"])
 
-            dbi: DBInterface = self.settings["dbi"]
             pitch = int(self.get_argument("pitch-speed"))
-            await dbi.save_file(uploaded_file["filename"], pitch=pitch)
+            await self.dbi.save_file(uploaded_file["filename"], pitch=pitch)
 
-            task = CutVideo(self.settings["upload_path"], self.settings["chunks"], dbi)
+            task = CutVideo(self.settings["upload_path"], self.settings["chunks"], self.dbi)
             IOLoop.current().spawn_callback(task.start, uploaded_file["filename"], pitch)
 
         self.redirect("/")
