@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block "content" %}
+    {% if uploaded_file %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      File <strong>{{ uploaded_file }}</strong> has been uploaded.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% end %}
+
+    <form method="post" enctype="multipart/form-data" action="">
+              <div class="mb-3">
+                  <label for="formFile" class="form-label">Select video file</label>
+                  <div class="row">
+                      <div class="col-auto">
+                          <input class="form-control" type="file" id="formFile" name="upload-video-file">
+                      </div>
+                      <div class="col-auto">
+                          <input class="form-control" type="number" name="pitch-speed" value="100">
+                      </div>
+                      <div class="col-auto">
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                      </div>
+                  </div>
+
+              </div>
+          </form>
+
+    <table class="table table-hover caption-top">
+        <caption>Uploaded files:</caption>
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Pitch</th>
+            <th scope="col">Uploaded at</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in files %}
+            <tr>
+                <td>{{ item['name'] }}</td>
+                <td>{{ item['pitch'] }}</td>
+                <td>{{ item['created_at'] }}</td>
+            </tr>
+        {% end %}
+        </tbody>
+    </table>
+{% end %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block "content" %}
+    <table class="table table-hover caption-top">
+        <caption>Chunks:</caption>
+        <thead>
+        <tr>
+            <th scope="col">Chunk file name</th>
+            <th scope="col">Original file name</th>
+            <th scope="col">Created at</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in chunks %}
+            <tr>
+                <td><a href="{{ static_url(item['chunk_file']) }}">{{ item['chunk_file'] }}</a></td>
+                <td>{{ item['original_file'] }}</td>
+                <td>{{ item['created_at'] }}</td>
+            </tr>
+        {% end %}
+        </tbody>
+    </table>
+{% end %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block "content" %}
+    <table class="table table-hover caption-top">
+        <caption>Jobs:</caption>
+        <thead>
+        <tr>
+            <th scope="col">Original file name</th>
+            <th scope="col">Created at</th>
+            <th scope="col">Updated at</th>
+            <th scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in jobs %}
+            <tr>
+                <td>{{ item['original_file'] }}</td>
+                <td>{{ item['created_at'] }}</td>
+                <td>{{ item['updated_at'] }}</td>
+                <td>{{ item['status'] }}</td>
+            </tr>
+        {% end %}
+        </tbody>
+    </table>
+{% end %}
