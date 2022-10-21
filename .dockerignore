@@ -1,0 +1,5 @@
+.idea
+*.pyc
+uploads/*
+chunks/*
+Dockerfile

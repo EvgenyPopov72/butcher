@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import os
 from pathlib import Path
 
 from tornado.web import Application, url
@@ -15,9 +16,18 @@ define("port", default=8888, help="run on the given port", type=int)
 
 def make_app():
     """Create Application object."""
-    # TODO add settings config in external file (e.g. some *.yaml, *.toml) or in environment variables
+    # TODO add settings config in external file (e.g. some *.yaml, *.toml)
+
+    db_creds = {
+        "host": os.getenv("POSTGRES_HOST", "127.0.0.1"),
+        "port": os.getenv("POSTGRES_PORT", 5432),
+        "username": os.getenv("POSTGRES_USER", "gabumas"),
+        "password": os.getenv("POSTGRES_PASSWORD", "pass1234"),
+        "database": os.getenv("POSTGRES_DB", "gabumas"),
+    }
+    dbi = DBInterface(**db_creds)
+
     base_path = Path(__file__).parent.resolve()
-    dbi = DBInterface("127.0.0.1", 5432, username="gabumas", password="pass1234", database="gabumas")
     settings = {
         "debug": True,
         "cookie_secret": "some secret",
